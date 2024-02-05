@@ -1,5 +1,5 @@
 <?php
-require('settings.php');
+require('../../database.php');
 
 $all_news_sql = 'SELECT * FROM category ORDER BY id desc';
 if (!$result = $conn->query($all_news_sql)){
@@ -9,11 +9,10 @@ $news = mysqli_fetch_all($result, MYSQLI_ASSOC);
 
 ?>
 
-<?php require('head.php');?>
-<?php require('sidebar.php');?>
-<?php require('header.php');?>
 
-
+<?php require('../../includes/header.php'); ?>
+<?php require('../../includes/navbar.php'); ?>
+<?php require('../../includes/nav.php'); ?>
 
 <!-- Main Container -->
 <main id="main-container">
@@ -175,7 +174,4 @@ $news = mysqli_fetch_all($result, MYSQLI_ASSOC);
     <!-- END Page Content -->
 </main>
 <!-- END Main Container -->
-
-
-
-<?php require('footer.php');?>
+<?php require('../../includes/footer.php'); ?>

@@ -1,20 +1,20 @@
 <?php
-require('settings.php');
+require('../../database.php');
 
-if(isset($_POST['search'])){
+if (isset($_POST['search'])) {
     $search = $_POST['search'];
 
     $all_news_sql = "SELECT * FROM news 
          WHERE name like '%{$search}%' or description like '%{$search}%' 
          ORDER BY id desc";
 
-    if (!$result = $conn->query($all_news_sql)){
+    if (!$result = $conn->query($all_news_sql)) {
         die("Baza bilan bog'liq xatolik bo'ldi: " . $conn->error);
     }
     $news = mysqli_fetch_all($result, MYSQLI_ASSOC);
-}else{
+} else {
     $all_news_sql = 'SELECT * FROM news ORDER BY id desc';
-    if (!$result = $conn->query($all_news_sql)){
+    if (!$result = $conn->query($all_news_sql)) {
         die("Baza bilan bog'liq xatolik bo'ldi: " . $conn->error);
     }
     $news = mysqli_fetch_all($result, MYSQLI_ASSOC);
@@ -23,9 +23,11 @@ if(isset($_POST['search'])){
 
 ?>
 
-<?php require('head.php');?>
-<?php require('sidebar.php');?>
-<?php require('header.php');?>
+
+
+<?php require('../../includes/header.php'); ?>
+<?php require('../../includes/navbar.php'); ?>
+<?php require('../../includes/nav.php'); ?>
 
 <!-- Main Container -->
 <main id="main-container">
@@ -140,8 +142,8 @@ if(isset($_POST['search'])){
                     <div class="input-group">
                         <input type="text" class="form-control" name="search" placeholder="Maqola qidirish..">
                         <span class="input-group-text">
-                <i class="fa fa-fw fa-search"></i>
-              </span>
+                            <i class="fa fa-fw fa-search"></i>
+                        </span>
                     </div>
                 </form>
                 <!-- END Search Posts -->
@@ -149,48 +151,51 @@ if(isset($_POST['search'])){
                 <!-- Posts Table -->
                 <table class="table table-striped table-borderless table-vcenter">
                     <thead>
-                    <tr class="bg-body-dark">
-                        <th style="width: 60px;">ID</th>
-                        <th style="width: 33%;">Maqola nomi</th>
-                        <th class="d-none d-sm-table-cell">Muallif</th>
-                        <th class="d-none d-xl-table-cell">Yaratilgan</th>
-                        <th class="d-none d-xl-table-cell">Yangilangan</th>
-                        <th style="width: 100px;" class="text-center">Amallar</th>
-                    </tr>
+                        <tr class="bg-body-dark">
+                            <th style="width: 60px;">ID</th>
+                            <th style="width: 33%;">Maqola nomi</th>
+                            <th class="d-none d-sm-table-cell">Muallif</th>
+                            <th class="d-none d-xl-table-cell">Yaratilgan</th>
+                            <th class="d-none d-xl-table-cell">Yangilangan</th>
+                            <th style="width: 100px;" class="text-center">Amallar</th>
+                        </tr>
                     </thead>
                     <tbody>
-                    <?php if(count($news) > 0):?>
-                        <?php foreach ($news as $post): ?><tr>
-                            <td>
-                                <?= $post['id'] ?>
-                            </td>
-                            <td>
-                                <i class="fa fa-eye text-success me-1"></i>
-                                <a href="be_pages_blog_story.html">
-                                    <?= $post['name'] ?>
-                                </a>
-                            </td>
-                            <td class="d-none d-sm-table-cell">
-                                <a href="be_pages_generic_profile.html"><?= $post['author_id'] ?></a>
-                            </td>
-                            <td class="d-none d-xl-table-cell">
-                                <?= $post['created_at'] ?>
-                            </td>
-                            <td class="d-none d-xl-table-cell">
-                                <?= $post['updated_at'] ?>
-                            </td>
-                            <td class="text-center">
-                                <a class="btn btn-sm btn-alt-secondary" href="edit-news.php?id=<?= $post['id'] ?>">
-                                    <i class="fa fa-fw fa-pencil-alt text-primary"></i>
-                                </a>
-                                <a class="btn btn-sm btn-alt-secondary" href="delete-news.php?id=<?= $post['id'] ?>">
-                                    <i class="fa fa-fw fa-times text-danger"></i>
-                                </a>
-                            </td>
-                            </tr>
+                        <?php if (count($news) > 0): ?>
+                            <?php foreach ($news as $post): ?>
+                                <tr>
+                                    <td>
+                                        <?= $post['id'] ?>
+                                    </td>
+                                    <td>
+                                        <i class="fa fa-eye text-success me-1"></i>
+                                        <a href="be_pages_blog_story.html">
+                                            <?= $post['name'] ?>
+                                        </a>
+                                    </td>
+                                    <td class="d-none d-sm-table-cell">
+                                        <a href="be_pages_generic_profile.html">
+                                            <?= $post['author_id'] ?>
+                                        </a>
+                                    </td>
+                                    <td class="d-none d-xl-table-cell">
+                                        <?= $post['created_at'] ?>
+                                    </td>
+                                    <td class="d-none d-xl-table-cell">
+                                        <?= $post['updated_at'] ?>
+                                    </td>
+                                    <td class="text-center">
+                                        <a class="btn btn-sm btn-alt-secondary" href="edit-news.php?id=<?= $post['id'] ?>">
+                                            <i class="fa fa-fw fa-pencil-alt text-primary"></i>
+                                        </a>
+                                        <a class="btn btn-sm btn-alt-secondary" href="delete-news.php?id=<?= $post['id'] ?>">
+                                            <i class="fa fa-fw fa-times text-danger"></i>
+                                        </a>
+                                    </td>
+                                </tr>
 
-                        <?php endforeach; ?>
-                    <?php endif;?>
+                            <?php endforeach; ?>
+                        <?php endif; ?>
                     </tbody>
                 </table>
                 <!-- END Posts Table -->
@@ -200,9 +205,9 @@ if(isset($_POST['search'])){
                     <ul class="pagination justify-content-end">
                         <li class="page-item">
                             <a class="page-link" href="javascript:void(0)" tabindex="-1" aria-label="Previous">
-                  <span aria-hidden="true">
-                    <i class="fa fa-angle-double-left"></i>
-                  </span>
+                                <span aria-hidden="true">
+                                    <i class="fa fa-angle-double-left"></i>
+                                </span>
                                 <span class="visually-hidden">Previous</span>
                             </a>
                         </li>
@@ -220,9 +225,9 @@ if(isset($_POST['search'])){
                         </li>
                         <li class="page-item">
                             <a class="page-link" href="javascript:void(0)" aria-label="Next">
-                  <span aria-hidden="true">
-                    <i class="fa fa-angle-double-right"></i>
-                  </span>
+                                <span aria-hidden="true">
+                                    <i class="fa fa-angle-double-right"></i>
+                                </span>
                                 <span class="visually-hidden">Next</span>
                             </a>
                         </li>
@@ -236,7 +241,4 @@ if(isset($_POST['search'])){
     <!-- END Page Content -->
 </main>
 <!-- END Main Container -->
-
-
-
-<?php require('footer.php');?>
+<?php require('../../includes/footer.php'); ?>

@@ -1,25 +1,34 @@
 <?php
-// require('../database.php');
+require('../../database.php');
 
+if (isset($_POST['name']) && isset($_POST['id'])) {
+      $name = $_POST['name'];
+      $id = $_POST['id'];
 
-// if (isset($_POST['name'])) {
-//       $name = $_POST['name'];
+      $add_sql = "UPDATE category SET name = '{$name}' WHERE id = '{$id}'";
 
-//       $add_category_sql = "INSERT INTO category (name) VALUES ('{$name}');";
+      if (!$conn->query($add_sql)) {
+            header('Location: error.php');
+      } else {
+            header('Location: allCategories.php');
+      }
+}
 
-//       if ($conn->query($add_category_sql)) {
-//             header('Location: all-categories.php');
-//       } else {
-//             die($conn->error);
-//       }
-// }
+if (isset($_GET['id'])) {
+      $id = $_GET['id'];
 
+      $sql = "SELECT * FROM category where id = {$id}";
+
+      if (!$result = $conn->query($sql)) {
+            header('Location: error.php');
+      }
+      $category = mysqli_fetch_assoc($result);
+}
 ?>
 
-<?php require('../includes/header.php'); ?>
-<?php require('../includes/navbar.php'); ?>
-<?php require('../includes/nav.php'); ?>
-
+<?php require('../../includes/header.php'); ?>
+<?php require('../../includes/navbar.php'); ?>
+<?php require('../../includes/nav.php'); ?>
 
 <!-- Main Container -->
 <main id="main-container">
@@ -43,7 +52,7 @@
       <!-- Page Content -->
       <div class="content content-full content-boxed">
             <!-- New Post -->
-            <form action="add-category.php" method="POST">
+            <form action="edit-category.php" method="POST">
                   <div class="block">
                         <div class="block-header block-header-default">
                               <a class="btn btn-alt-secondary" href="all-categories.php">
@@ -56,7 +65,9 @@
                                           <div class="mb-4">
                                                 <label class="form-label" for="dm-post-add-title">Tur nomi</label>
                                                 <input type="text" class="form-control" id="dm-post-add-title"
-                                                      name="name" placeholder="Tur nomini kiriting..">
+                                                      name="name" placeholder="Tur nomini kiriting.."
+                                                      value="<?= $category['name'] ?>">
+                                                <input type="hidden" name="id" value="<?= $category['id'] ?>">
                                           </div>
                                     </div>
                               </div>
@@ -65,7 +76,7 @@
                               <div class="row justify-content-center push">
                                     <div class="col-md-10">
                                           <button type="submit" class="btn btn-alt-primary">
-                                                <i class="fa fa-fw fa-check opacity-50 me-1"></i> Turni saqlash
+                                                <i class="fa fa-fw fa-check opacity-50 me-1"></i> Turni o'zgartirish
                                           </button>
                                     </div>
                               </div>
@@ -77,5 +88,4 @@
       <!-- END Page Content -->
 </main>
 <!-- END Main Container -->
-
-<?php require('../includes/footer.php'); ?>
+<?php require('../../includes/footer.php'); ?>

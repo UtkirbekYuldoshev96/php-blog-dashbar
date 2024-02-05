@@ -1,42 +1,42 @@
 <?php
-// require('../database.php');
+require('../../database.php');
 
-// if (
-//       isset($_POST['name']) &&
-//       isset($_POST['description']) &&
-//       isset($_POST['category']) &&
-//       $_FILES['image']['name'] != ''
-// ){
-//   $name = $_POST['name'];
-//   $description = $_POST['description'];
-//   $category = $_POST['category'];
+if (
+      isset($_POST['name']) &&
+      isset($_POST['description']) &&
+      isset($_POST['category']) &&
+      $_FILES['image']['name'] != ''
+){
+  $name = $_POST['name'];
+  $description = $_POST['description'];
+  $category = $_POST['category'];
 
-//   $uploaddir = 'images/';
-//   $uploadfile = $uploaddir . basename($_FILES['image']['name']); // images/1.png
+  $uploaddir = '../../images';
+  $uploadfile = $uploaddir . basename($_FILES['image']['name']); // images/1.png
 
-//   echo '<pre>';
-//   if (move_uploaded_file($_FILES['image']['tmp_name'], $uploadfile)) {
-//       echo "Файл корректен и был успешно загружен.\n";
-//   } else {
-//       echo "Возможная атака с помощью файловой загрузки!\n";
-//   }
+  echo '<pre>';
+  if (move_uploaded_file($_FILES['image']['tmp_name'], $uploadfile)) {
+      echo "Fayl to'g'ri va muvaffaqiyatli yuklab olingan.\n";
+  } else {
+      echo "Faylni yuklab olish orqali mumkin bo'lgan hujum!\n";
+  }
 
-//   $add_sql = "INSERT INTO news (name, image, description, category_id, author_id)
-//   VALUES ('{$name}', '{$uploadfile}', '{$description}', '{$category}', 1);";
+  $add_sql = "INSERT INTO news (name, image, description, category_id, author_id)
+  VALUES ('{$name}', '{$uploadfile}', '{$description}', '{$category}', 1);";
 
-//   if ($conn->query($add_sql)){
-//       header('Location: all-posts.php');
-//   }else{
-//       die($conn->error);
-//   }
-// }
+  if ($conn->query($add_sql)){
+      header('Location: allPosts.php');
+  }else{
+      die($conn->error);
+  }
+}
 
 
 ?>
 
-<?php require('../includes/header.php'); ?>
-<?php require('../includes/navbar.php'); ?>
-<?php require('../includes/nav.php'); ?>
+<?php require('../../includes/header.php'); ?>
+<?php require('../../includes/navbar.php'); ?>
+<?php require('../../includes/nav.php'); ?>
 
 
 
@@ -127,5 +127,4 @@
 </main>
 <!-- END Main Container -->
 
-
-<?php require('../includes/footer.php'); ?>
+<?php require('../../includes/footer.php'); ?>
